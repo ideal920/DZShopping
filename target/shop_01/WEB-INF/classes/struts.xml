@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <!-- 指定默认编码集，作用于HttpServletRequest的setCharacterEncoding方法 和 、velocity的输出 -->
+    <constant name="struts.i18n.encoding" value="UTF-8" />
+    <!-- 该属性指定Struts 2文件上传中整个请求内容允许的最大字节数  -->
+    <constant name="struts.multipart.maxSize" value="104857600" />
+    <constant name="struts.custom.i18n.resources" value="message" />
+    <constant name="struts.action.extension" value="do"></constant>
+
+    <package name="default" namespace="/" extends="json-default">
+        <interceptors>
+            <interceptor name="isAdmin" class="com.web.util.AdminInterceptor"/>
+        </interceptors>
+        <global-results>
+            <result name="notAdmin">/WEB-INF/notAdmin.jsp</result>
+        </global-results>
+
+        <action name="*Store" class="com.web.action.StoreAction" method="{1}">
+            <result name="isExistsSuccess" type="json">
+                <param name="root">result</param>
+            </result>
+            <result name="addSuccess">/WEB-INF/storeLogin.jsp</result>
+            <result name="loginSuccess">/WEB-INF/storeIndex.jsp</result>
+            <result name="loginError">/WEB-INF/storeLogin.jsp</result>
+            <result name="logoutSuccess" type="redirectAction">
+                <param name="actionName">showIndex</param>
+            </result>
+            <allowed-methods>isExists,add,login,logout</allowed-methods>
+        </action>
+
+        <action name="*Category" class="com.web.action.CategoryAction" method="{1}">
+            <interceptor-ref name="isAdmin"/>
+            <interceptor-ref name="defaultStack"/>
+            <result name="findAllSuccess">/WEB-INF/addCategory.jsp</result>
+            <result name="addSuccess" type="json">
+                <param name="root">list</param>
+            </result>
+            <result name="updateSuccess" type="json">
+                <param name="root">list</param>
+            </result>
+            <allowed-methods>findAll,add,update</allowed-methods>
+        </action>
+
+        <action name="*Brand" class="com.web.action.BrandAction" method="{1}">
+            <interceptor-ref name="isAdmin"/>
+            <interceptor-ref name="defaultStack"/>
+            <result name="findAllSuccess">/WEB-INF/addBrand.jsp</result>
+            <result name="addSuccess">/WEB-INF/addBrand.jsp</result>
+            <result name="updateSuccess">/WEB-INF/addBrand.jsp</result>
+            <allowed-methods>findAll,add,update</allowed-methods>
+        </action>
+
+        <action name="*Product" class="com.web.action.ProductAction" method="{1}">
+            <result name="findCategoryBrandSuccess">/WEB-INF/addProduct.jsp</result>
+            <result name="addSuccess">/WEB-INF/managerProduct.jsp</result>
+            <result name="findPageSuccess" type="json">
+                <param name="root">pageBean</param>
+            </result>
+            <result name="findIdSuccess">/WEB-INF/updateProduct.jsp</result>
+            <result name="updateSuccess">/WEB-INF/managerProduct.jsp</result>
+            <result name="findDetailSuccess">/WEB-INF/detailProduct.jsp</result>
+            <result name="findCategorySuccess" type="json">
+                <param name="root">pageBean</param>
+            </result>
+            <result name="findBrandSuccess" type="json">
+                <param name="root">pageBean</param>
+            </result>
+            <result name="findNewSuccess" type="json">
+                <param name="root">pageBean</param>
+            </result>
+            <result name="findLowPriceSuccess" type="json">
+                <param name="root">pageBean</param>
+            </result>
+            <result name="findHotSuccess" type="json">
+                <param name="root">pageBean</param>
+            </result>
+            <result name="findLikeNameSuccess" type="json">
+                <param name="root">pageBean</param>
+            </result>
+             <result name="buySuccess" type="json">
+                <param name="root">resultBuy</param>
+            </result>
+            <allowed-methods>
+                findCategoryBrand,add,findPage,findId,update,findDetail,findCategory,
+                findBrand,findNew,findLowPrice,findHot,findLikeName,buy
+            </allowed-methods>
+        </action>
+
+        <action name="*Index" class="com.web.action.IndexAction" method="{1}">
+            <result name="showSuccess">/WEB-INF/userIndex.jsp</result>
+            <allowed-methods>show</allowed-methods>
+        </action>
+
+        <action name="*User" class="com.web.action.UserAction" method="{1}">
+            <result name="isExistsSuccess" type="json">
+                <param name="root">result</param>
+            </result>
+            <result name="addSuccess">/WEB-INF/userLogin.jsp</result>
+            <result name="loginSuccess" type="redirectAction">
+                <param name="actionName">showIndex</param>
+            </result>
+            <result name="loginError">/WEB-INF/userLogin.jsp</result>
+            <result name="updatePasswordSuccess" type="json">
+                <param name="root">resultPassword</param>
+            </result>
+            <result name="logoutSuccess" type="redirectAction">
+                <param name="actionName">showIndex</param>
+            </result>
+            <allowed-methods>isExists,add,login,updatePassword,logout</allowed-methods>
+        </action>
+
+        <action name="*Order" class="com.web.action.OrderAction" method="{1}">
+            <result name="findStoreSuccess" type="json">
+                <param name="root">pageBean</param>
+            </result>
+            <result name="updateStoreStatusSuccess" type="json">
+                <param name="root">resultStatus</param>
+            </result>
+            <result name="findUserSuccess" type="json">
+                <param name="root">pageBean</param>
+            </result>
+            <result name="updateUserStatusSuccess" type="json">
+                <param name="root">resultStatus</param>
+            </result>
+            <result name="findProductSaleSuccess" type="json">
+                <param name="root">pageBean</param>
+            </result>
+            <result name="findStoreSaleSuccess" type="json">
+                <param name="root">listSale</param>
+            </result>
+            <allowed-methods>
+                findStore,updateStoreStatus,findUser,updateUserStatus,findProductSale,findStoreSale
+            </allowed-methods>
+        </action>
+    </package>
+</struts>
