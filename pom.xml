@@ -146,10 +146,15 @@
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
+    <!--
+      2.1.3之前的dom4j默认情况下允许外部DTD和外部实体，这可能会启用XXE攻击。
+      但是，OWASP提供了流行的外部文档，其中显示了如何在使用dom4j的任何应用程序中启用安全的非默认行为。
+      注意：此通报适用于dom4j:dom4j1.x版旧版工件。要解决此问题，org.dom4j:dom4j建议更改为最新版本。
+    -->
     <dependency>
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
-      <version>1.6.1</version>
+      <version>2.1.1</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
