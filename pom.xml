@@ -24,7 +24,7 @@
       成功的攻击需要攻击者以外的其他人与人进行交互。
       成功攻击此漏洞可能导致MySQL连接器被接管。
     -->
-    <mysql.connector.version>8.0.16</mysql.connector.version>
+    <mysql.connector.version>8.0.28</mysql.connector.version>
     <struts2.version>2.5.16</struts2.version>
     <springframework.version>4.3.18.RELEASE</springframework.version>
     <hibernate.version>5.0.12.Final</hibernate.version>
